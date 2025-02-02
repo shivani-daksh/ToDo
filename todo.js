@@ -10,6 +10,11 @@ const todoList = JSON.parse(localStorage.getItem('todoList')) || [];
 // }];
 renderTodoList();
 
+document.querySelector('.js-add-btn').addEventListener('click', () => {
+  AddTodo();
+});
+
+
 
 function AddTodo(){
   const todoInput = document.querySelector('.js-input-todo');
@@ -42,16 +47,24 @@ function renderTodoList() {
     const html = `
     <div>${name}</div>
     <div>${dueDate}</div>
-    <button onclick = "
-    todoList.splice(${index}, 1);
-    localStorage.setItem('todoList', JSON.stringify(todoList));
-    renderTodoList();
-    " class = "delete-button">Delete</button>
+    <button class = "delete-button js-delete-btn">Delete</button>
     `;
     todoHTML +=html;
     });
 
   document.querySelector('.container').innerHTML = todoHTML;
+
+
+  // this will be an array so have to target each element
+  document.querySelectorAll('.js-delete-btn')
+  .forEach((deleteButton, index) => {
+    deleteButton.addEventListener('click', () => {
+    todoList.splice(index, 1);
+    localStorage.setItem('todoList', JSON.stringify(todoList));
+    renderTodoList();
+    });
+  });
+
 }
 
 
